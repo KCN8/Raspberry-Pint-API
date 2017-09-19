@@ -14,12 +14,7 @@ router.get('/users', function(req, res){
     })
 })
 
-router.get('/kegs', function(req, res){
-  queries.getKegs()
-    .then(function (result){
-      res.json(result)
-    })
-})
+
 
 // Log in
 router.post('/login', function(req, res, next) {
@@ -72,17 +67,112 @@ router.post('/login', function(req, res, next) {
 })
 
 
+//all beers
+router.get('/beers', function(req, res){
+  queries.getKegs()
+    .then(function (result){
+      res.json(result)
+    })
+})
 
-//busines by user from user dashboard
-router.get('/kegs-by-user/:id', function(req, res){
-    knex.from('user')
-    .innerJoin('user_kegs', 'user.id', 'user_id')
-    .where('user.id', req.params.id)
-    .innerJoin('kegs', 'kegs_id', 'kegs.id')
+//all kegs
+router.get('/kegs', function(req, res){
+  queries.getKegs()
+    .then(function (result){
+      res.json(result)
+    })
+})
+
+
+//Kegs by id
+router.get('/kegs-by-id/:id', function(req, res){
+    knex.from('keg')
+    .where('keg.id', req.params.id)
     .then(function(data){
       res.send(data);
     })
 })
+
+
+//beers by id
+
+
+
+
+
+
+
+// BUTTONS: Add Keg (plus icon) Home (house icon), Whats on tap (beer icon), Contact/Info (person)
+
+
+
+
+// -- Mo START
+
+// Whats on tap (beer icon) Should take you to whats on tap page. Shows kegs or a directive to add a keg
+
+// Home (house icon) icon takes you back to start page
+
+// Contact/Info (person) takes you to a page about our team/link to github etc
+
+// -- Mo END
+
+
+
+
+// --  John (primary) & Rick (support) START
+
+// Plus button. Get from API or user added.
+
+// Post this data to beers (Beer Table)
+
+// Do a retrieve id of beer and store in variable
+
+// take beer id variable and add it to object that will post to kegs
+
+// take form question and add that to object that will post to kegs
+
+// take object created from beer id and
+
+// post new keg object to database
+
+// redirect to whats on Tap
+
+// --  John (primary) & Rick (support) END
+
+
+
+// Rick START
+
+// Do a Get Request for all kegs and display on the whats on tap screen with good style
+
+// Rick END
+
+
+
+// Eric START
+
+// Migrate and seed database
+
+// Routes
+
+// make basic RPI postin program
+
+// Eric END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
