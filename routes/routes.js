@@ -107,7 +107,7 @@ router.get('/beers-by-id/:id', function(req, res){
 //beers by id  - Use to get ID for FK beer_name in the object that will create a keg
 router.get('/keg-and-beer/', function(req, res){
   knex.from('keg')
-  .innerJoin('beer', 'keg.beer_id', 'id')
+  .innerJoin('beer', 'keg.beer_id', 'beer.id')
   .then(function(data){
     res.send(data);
     })
