@@ -1,11 +1,10 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('keg', (table) =>{
     table.increments()
-    table.text('brew_name')
-    table.text('photo')
-    table.text('description')
-    table.integer('temperature')
+    table.string('temperature')
+    table.integer('keg_size_liters')
     table.integer('liters_used')
+    table.integer('beer_id')
   })
 }
 

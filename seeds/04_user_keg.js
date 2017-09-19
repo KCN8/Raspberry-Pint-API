@@ -16,12 +16,6 @@ exports.seed = function(knex, Promise) {
         },{
           user_id: 2,
           keg_id: 2
-        },{
-          user_id: 3,
-          keg_id: 3
-        },{
-          user_id: 4,
-          keg_id: 4
  },
        ]
       return knex('user_keg').insert(userData)
