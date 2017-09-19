@@ -67,7 +67,7 @@ router.post('/login', function(req, res, next) {
 })
 
 
-//all beers
+//all beers  --- See what beers we have in our "beer" table
 router.get('/beers', function(req, res){
   queries.getKegs()
     .then(function (result){
@@ -75,7 +75,7 @@ router.get('/beers', function(req, res){
     })
 })
 
-//all kegs
+//all kegs --- use Just in case we want to see what kegs we have in our "keg" table
 router.get('/kegs', function(req, res){
   queries.getKegs()
     .then(function (result){
@@ -84,7 +84,7 @@ router.get('/kegs', function(req, res){
 })
 
 
-//Kegs by id
+//Kegs by id  --- use route for keg status page
 router.get('/kegs-by-id/:id', function(req, res){
     knex.from('keg')
     .where('keg.id', req.params.id)
@@ -94,9 +94,24 @@ router.get('/kegs-by-id/:id', function(req, res){
 })
 
 
-//beers by id
+//beers by id  - Use to get ID for FK beer_name in the object that will create a keg
+router.get('/beers-by-id/:id', function(req, res){
+    knex.from('beer')
+    .where('beer.id', req.params.id)
+    .then(function(data){
+      res.send(data);
+    })
+})
 
 
+//beers by id  - Use to get ID for FK beer_name in the object that will create a keg
+router.get('/keg-and-beer/', function(req, res){
+  knex.from('keg')
+  .innerJoin('beer', 'keg.beer_id', 'id')
+  .then(function(data){
+    res.send(data);
+    })
+})
 
 
 
