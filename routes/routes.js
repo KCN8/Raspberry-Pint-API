@@ -67,24 +67,46 @@ router.post('/login', function(req, res, next) {
 })
 
 
-//all beers  --- See what beers we have in our "beer" table
+//beers GET
 router.get('/beers', function(req, res){
-  queries.getKegs()
-    .then(function (result){
-      res.json(result)
-    })
-})
-
-//all kegs --- use Just in case we want to see what kegs we have in our "keg" table
-router.get('/kegs', function(req, res){
-  queries.getKegs()
+  return knex('beer').select()
     .then(function (result){
       res.json(result)
     })
 })
 
 
-//Kegs by id  --- use route for keg status page
+//beers POST
+router.post('/beers', function(req, res){
+  let newBeer = req.body
+  return knex('beer').insert(newBeer).returning('*')
+    .then(function (newBeer){
+      res.json(newBeer)
+    })
+})
+
+
+
+// kegs GET
+router.post('/kegs', function(req, res){
+  let newKeg = req.body
+  return knex('keg').insert(newKeg).returning('*')
+    .then(function (newKeg){
+      res.json(newKeg)
+    })
+})
+
+
+// kegs POST
+router.post('/kegs', function(req, res){
+  return knex('keg').select()
+    .then(function (result){
+      res.json(result)
+    })
+})
+
+
+//Kegs by id GET
 router.get('/kegs-by-id/:id', function(req, res){
     knex.from('keg')
     .where('keg.id', req.params.id)
@@ -94,7 +116,17 @@ router.get('/kegs-by-id/:id', function(req, res){
 })
 
 
-//beers by id  - Use to get ID for FK beer_name in the object that will create a keg
+//Kegs by id POST
+router.get('/kegs-by-id/:id', function(req, res){
+    knex.from('keg')
+    .where('keg.id', req.params.id)
+    .then(function(data){
+      res.send(data);
+    })
+})
+
+
+//beers by id GET
 router.get('/beers-by-id/:id', function(req, res){
     knex.from('beer')
     .where('beer.id', req.params.id)
@@ -104,8 +136,28 @@ router.get('/beers-by-id/:id', function(req, res){
 })
 
 
-//All kegs and beers associalted with them  - this route is for the whats on tap page
+//beers by id POST
+router.post('/beers-by-id/:id', function(req, res){
+    knex.from('beer')
+    .where('beer.id', req.params.id)
+    .then(function(data){
+      res.send(data);
+    })
+})
+
+
+//All kegs and beers associalted with them  GET
 router.get('/keg-and-beer/', function(req, res){
+  knex.from('keg')
+  .innerJoin('beer', 'keg.beer_id', 'beer.id')
+  .then(function(data){
+    res.send(data);
+    })
+})
+
+
+//All kegs and beers associalted with them  POST
+router.post('/keg-and-beer/', function(req, res){
   knex.from('keg')
   .innerJoin('beer', 'keg.beer_id', 'beer.id')
   .then(function(data){
