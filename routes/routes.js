@@ -87,21 +87,21 @@ router.post('/beers', function(req, res){
 
 
 
-// kegs GET
+//kegs GET
+router.get('/kegs', function(req, res){
+  return knex('keg').select()
+    .then(function (result){
+      res.json(result)
+    })
+})
+
+
+//kegs POST
 router.post('/kegs', function(req, res){
   let newKeg = req.body
   return knex('keg').insert(newKeg).returning('*')
     .then(function (newKeg){
       res.json(newKeg)
-    })
-})
-
-
-// kegs POST
-router.post('/kegs', function(req, res){
-  return knex('keg').select()
-    .then(function (result){
-      res.json(result)
     })
 })
 
@@ -124,6 +124,20 @@ router.get('/kegs-by-id/:id', function(req, res){
       res.send(data);
     })
 })
+
+
+//Kegs by id DELETE
+router.delete('/kegs-by-id/:id', function(req, res){
+    knex.from('keg')
+    .where('keg.id', req.params.id)
+    .del()
+    .then(function(deleted){
+      res.send({
+        message: "Keg Deleted"
+      });
+    })
+})
+
 
 
 //beers by id GET
