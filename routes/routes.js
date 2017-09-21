@@ -127,6 +127,20 @@ router.get('/kegs-by-id/:id', function(req, res){
 
 
 //Kegs by id DELETE
+router.delete('/beers-by-id/:id', function(req, res){
+    knex.from('beer')
+    .where('beer.id', req.params.id)
+    .del()
+    .then(function(deleted){
+      res.send({
+        message: "Keg Deleted"
+      });
+    })
+})
+
+
+
+//Kegs by id DELETE
 router.delete('/kegs-by-id/:id', function(req, res){
     knex.from('keg')
     .where('keg.id', req.params.id)
